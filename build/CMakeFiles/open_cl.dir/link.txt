@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/open_cl.dir/main.cpp.o -o open_cl  /usr/lib/libOpenCL.so 
