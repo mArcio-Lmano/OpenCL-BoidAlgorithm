@@ -3,6 +3,7 @@
 #include <iostream>
 #include <CL/cl.h>
 #include <cassert>
+#include <cstring>
 
 int main() {
     cl_platform_id platforms[64];
@@ -47,6 +48,81 @@ int main() {
             }
         }
     }
+    cl_int context_result;
+    cl_context context = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &context_result);
+    assert(context_result == CL_SUCCESS);
+
+    cl_int command_queue_result;
+    cl_command_queue queue = clCreateCommandQueue(context,device, 0, &command_queue_result);
+
+    const char* program_source = "__kernel void vector_sum(__global const float* a, __global const float* b, __global float* c) { \
+                                        int idx = get_global_id(0); \
+                                        c[idx] = a[idx] + b[idx]; \
+                                    }";
+    size_t length = strlen(program_source);
+    cl_int program_result;
+    cl_program program = clCreateProgramWithSource(context, 1, &program_source, &length, &program_result);
+    assert(program_result == CL_SUCCESS);
+
+    cl_int program_build_result = clBuildProgram(program, 1, &device, "", nullptr, nullptr);
+    if (program_build_result != CL_SUCCESS){
+        char log[256];
+        size_t log_length;
+        cl_int program_build_result_info = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 256, log, &log_length);
+        assert(program_build_result_info == CL_SUCCESS);
+    }
+
+    cl_int kernel_result;
+    cl_kernel kernel = clCreateKernel(program, "vector_sum", &kernel_result);
+    assert(kernel_result == CL_SUCCESS);
+
+
+    cl_int vec_a_result;
+    cl_mem vec_a = clCreateBuffer(context, CL_MEM_READ_ONLY, 2 * sizeof(float), nullptr, &vec_a_result);
+
+    float vec_a_data [] {1.5f, 3.7f};
+    cl_int enqueue_vec_a_result = clEnqueueWriteBuffer(queue, vec_a, CL_TRUE, 0, 2 * sizeof(float), vec_a_data,0, nullptr, nullptr);
+
+
+    cl_int vec_b_result;
+    cl_mem vec_b = clCreateBuffer(context, CL_MEM_READ_ONLY, 2 * sizeof(float), nullptr, &vec_b_result);
+
+    float vec_b_data [] {3.5f, 1.7f};
+    cl_int enqueue_vec_b_result = clEnqueueWriteBuffer(queue, vec_b, CL_TRUE, 0, 2 * sizeof(float), vec_b_data,0, nullptr, nullptr);
+
+
+    cl_int vec_c_result;
+    cl_mem vec_c = clCreateBuffer(context, CL_MEM_READ_ONLY, 2 * sizeof(float), nullptr, &vec_c_result);
+
+    float vec_c_data [] {2.2f, 4.1f};
+    cl_int enqueue_vec_c_result = clEnqueueWriteBuffer(queue, vec_c, CL_TRUE, 0, 2 * sizeof(float), vec_c_data,0, nullptr, nullptr);
+
+
+    cl_int kernel_arg_a_result = clSetKernelArg(kernel, 0, sizeof(cl_mem), &vec_a);
+    assert(kernel_arg_a_result == CL_SUCCESS);
+    cl_int kernel_arg_b_result = clSetKernelArg(kernel, 1, sizeof(cl_mem), &vec_b);
+    assert(kernel_arg_b_result == CL_SUCCESS);
+    cl_int kernel_arg_c_result = clSetKernelArg(kernel, 2, sizeof(cl_mem), &vec_c);
+    assert(kernel_arg_c_result == CL_SUCCESS);
+
+
+    size_t global_work_size = 2;
+    size_t local_work_size = 2;
+    cl_int enqueue_kernel_result = clEnqueueNDRangeKernel(queue, kernel, 1, 0, &global_work_size, &local_work_size, 0, nullptr, nullptr);
+    assert(enqueue_kernel_result == CL_SUCCESS);
+
+    float vec_data[2];
+    cl_int enqueue_read_buffer_result = clEnqueueReadBuffer(queue, vec_c, CL_TRUE, 0, 2 * sizeof(float), vec_data, 0, nullptr, nullptr);
+    assert(enqueue_read_buffer_result == CL_SUCCESS);
+
+
+    clFinish(queue);
+
+    std::cout << "Result: ";
+    for (int i=0; i<2; ++i) {
+        std::cout << vec_data[i] << ",";
+    }
+    std::cout << std::endl;
 
     return 0;
 }

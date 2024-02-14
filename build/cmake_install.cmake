@@ -1,4 +1,4 @@
-# Install script for directory: /home/talocha/C++/Fluid_Simulation
+# Install script for directory: /home/talocha/C++/Open_Cl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/talocha/C++/Fluid_Simulation/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/talocha/C++/Open_Cl/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

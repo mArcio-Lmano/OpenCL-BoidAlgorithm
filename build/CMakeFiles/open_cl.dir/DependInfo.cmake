@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/talocha/C++/Fluid_Simulation/main.cpp" "CMakeFiles/open_cl.dir/main.cpp.o" "gcc" "CMakeFiles/open_cl.dir/main.cpp.o.d"
+  "/home/talocha/C++/Open_Cl/main.cpp" "CMakeFiles/open_cl.dir/main.cpp.o" "gcc" "CMakeFiles/open_cl.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
