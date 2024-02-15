@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/talocha/C++/Open_Cl/build",
-  "command": "/usr/bin/g++ -g -o CMakeFiles/open_cl.dir/main.cpp.o -c /home/talocha/C++/Open_Cl/main.cpp",
-  "file": "/home/talocha/C++/Open_Cl/main.cpp",
-  "output": "CMakeFiles/open_cl.dir/main.cpp.o"
-}
-]

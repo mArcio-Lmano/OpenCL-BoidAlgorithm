@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/open_cl.dir/main.cpp.o -o open_cl  /usr/lib/libOpenCL.so 
+/usr/bin/c++ CMakeFiles/open_cl.dir/main.cpp.o -o open_cl  /usr/lib/libOpenCL.so /usr/lib/libsfml-graphics.so.2.6.1 /usr/lib/libsfml-window.so.2.6.1 /usr/lib/libsfml-system.so.2.6.1 

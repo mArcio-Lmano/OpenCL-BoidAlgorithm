@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.28.3"
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "open_cl::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-open_cl-Debug-5958de0ec3f669e0dcba.json",
+					"jsonFile" : "target-open_cl-0eae9b15dea4438edeed.json",
 					"name" : "open_cl",
 					"projectIndex" : 0
 				}

@@ -93,6 +93,9 @@ open_cl_EXTERNAL_OBJECTS =
 open_cl: CMakeFiles/open_cl.dir/main.cpp.o
 open_cl: CMakeFiles/open_cl.dir/build.make
 open_cl: /usr/lib/libOpenCL.so
+open_cl: /usr/lib/libsfml-graphics.so.2.6.1
+open_cl: /usr/lib/libsfml-window.so.2.6.1
+open_cl: /usr/lib/libsfml-system.so.2.6.1
 open_cl: CMakeFiles/open_cl.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/talocha/C++/Open_Cl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable open_cl"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/open_cl.dir/link.txt --verbose=$(VERBOSE)
