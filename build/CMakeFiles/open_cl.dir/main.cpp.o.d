@@ -146,4 +146,8 @@ CMakeFiles/open_cl.dir/main.cpp.o: /home/talocha/C++/Open_Cl/main.cpp \
  /usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include/emmintrin.h \
  /usr/include/c++/13.2.1/cassert /usr/include/assert.h \
  /usr/include/c++/13.2.1/cstring /usr/include/string.h \
- /usr/include/strings.h
+ /usr/include/strings.h /usr/include/c++/13.2.1/fstream \
+ /usr/include/c++/13.2.1/bits/codecvt.h \
+ /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/basic_file.h \
+ /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/c++io.h \
+ /usr/include/c++/13.2.1/bits/fstream.tcc
