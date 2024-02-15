@@ -9,6 +9,7 @@
 #include <CL/cl.h>
 #include <cassert>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Event.hpp>
 
 // Define the number of boids
 const int NUM_BOIDS = 5000;
@@ -22,6 +23,10 @@ struct Boid {
 };
 
 int main() {
+
+    // Declare a boolean variable to track whether the simulation should run or not
+    bool runSimulation = false;
+
     // Load kernel source from file
     std::ifstream kernelFile("boid.cl");
     if (!kernelFile.is_open()) {
@@ -100,15 +105,26 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+            
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Space) {
+                    // Toggle the value of runSimulation when the space key is pressed
+                    runSimulation = !runSimulation;
+                }
+            }
         }
 
-        // Execute OpenCL kernel
-        clEnqueueWriteBuffer(queue, boidBuffer, CL_TRUE, 0, sizeof(Boid) * NUM_BOIDS, boids.data(), 0, NULL, NULL);
-        size_t globalWorkSize = NUM_BOIDS;
-        clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalWorkSize, NULL, 0, NULL, NULL);
-        clEnqueueReadBuffer(queue, boidBuffer, CL_TRUE, 0, sizeof(Boid) * NUM_BOIDS, boids.data(), 0, NULL, NULL);
+        // Only execute the simulation if runSimulation is true
+        if (runSimulation) {
+            // Execute OpenCL kernel
+            clEnqueueWriteBuffer(queue, boidBuffer, CL_TRUE, 0, sizeof(Boid) * NUM_BOIDS, boids.data(), 0, NULL, NULL);
+            size_t globalWorkSize = NUM_BOIDS;
+            clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalWorkSize, NULL, 0, NULL, NULL);
+            clEnqueueReadBuffer(queue, boidBuffer, CL_TRUE, 0, sizeof(Boid) * NUM_BOIDS, boids.data(), 0, NULL, NULL);
+        }
+
         // Measure elapsed time and calculate FPS
-        sf::Time elapsedTime = clock.restart();
+        sf::Time elapsedTime = clock.restart(); 
         float fps = 1.0f / elapsedTime.asSeconds();
 
         // Update FPS text
@@ -128,7 +144,6 @@ int main() {
         // Display window
         window.display();
     }
-
     // Clean up
     clReleaseKernel(kernel);
     clReleaseProgram(program);

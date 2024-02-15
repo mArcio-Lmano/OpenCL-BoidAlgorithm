@@ -1,4 +1,3 @@
-
 typedef struct {
     float x, y, vx, vy;
 } Boid;
@@ -7,33 +6,35 @@ __kernel void update_boids(__global Boid* boids, const int num_boids, const floa
     int index = get_global_id(0);
     if (index < num_boids) {
         // Update boid position and velocity based on simple rules
-        float coh_radius = 200.0f;
-        float align_radius = 200.0f;
+        float coh_radius = 20.0f;
+        float align_radius = 30.0f;
         float sep_radius = 10.0f;
-        float max_speed = 200.0f;
+        float max_speed = 10.0f;
         float max_force = 0.1f;
 
         float coh_factor = 0.01f;
         float align_factor = 0.05f;
-        float sep_factor = 0.5f;
+        float sep_factor = 0.2f;
 
         float coh_x = 0.0f, coh_y = 0.0f;
         float align_x = 0.0f, align_y = 0.0f;
         float sep_x = 0.0f, sep_y = 0.0f;
         int coh_count = 0, align_count = 0, sep_count = 0;
 
+        // Wrap around boundaries for each boid
+        if (boids[index].x > width) boids[index].x = 0.0f;
+        if (boids[index].x < 0.0f) boids[index].x = width;
+        if (boids[index].y > height) boids[index].y = 0.0f;
+        if (boids[index].y < 0.0f) boids[index].y = height;
+
         // Loop through neighboring boids
         for (int i = 0; i < num_boids; ++i) {
-
-            if (boids[i].x > width) boids[i].x = 0.0f;
-            if (boids[i].x < 0.0f) boids[i].x = width;
-            if (boids[i].y > height) boids[i].y = 0.0f;
-            if (boids[i].y < 0.0f)  boids[i].y = height;
 
             if (i != index) {
                 float dx = boids[i].x - boids[index].x;
                 float dy = boids[i].y - boids[index].y;
-                
+
+
                 float dist_sq = dx * dx + dy * dy;
 
                 if (dist_sq < coh_radius * coh_radius) {
